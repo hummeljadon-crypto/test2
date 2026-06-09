@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaPort — Company Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f7f8fa;
+      --bg3: #f0f1f4;
+      --border: #e3e5ea;
+      --border2: #cacdd5;
+      --text: #0f1117;
+      --text2: #4b5060;
+      --text3: #8a909f;
+      --accent: #1a6cff;
+      --accent-soft: #e8f0ff;
+      --accent-mid: #b8ceff;
+      --green: #14a85c;
+      --green-soft: #e6f7ee;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --red: #dc2626;
+      --red-soft: #fee2e2;
+      --radius: 10px;
+      --radius-lg: 16px;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 58px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 17px;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 28px; height: 28px;
+      background: var(--text);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 16px; height: 16px; fill: #fff; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 7px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-links a:hover { background: var(--bg2); color: var(--text); }
+    .nav-links a.active { background: var(--bg3); color: var(--text); font-weight: 500; }
+    .nav-cta {
+      background: var(--text);
+      color: #fff !important;
+      padding: 7px 16px !important;
+      border-radius: 8px !important;
+      font-weight: 500 !important;
+      transition: opacity 0.15s !important;
+    }
+    .nav-cta:hover { opacity: 0.82; background: var(--text) !important; color: #fff !important; }
+
+    /* ── SECTIONS ── */
+    section { display: none; }
+    section.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 80px 2rem 60px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero-tag span { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -1.2px;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero p {
+      font-size: 17px;
+      color: var(--text2);
+      max-width: 520px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-primary { background: var(--text); color: #fff; }
+    .btn-primary:hover { opacity: 0.83; }
+    .btn-ghost { background: var(--bg); color: var(--text2); border-color: var(--border2); }
+    .btn-ghost:hover { background: var(--bg2); color: var(--text); }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-accent:hover { opacity: 0.88; }
+    .btn svg { width: 15px; height: 15px; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .stat {
+      background: var(--bg);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-val { font-size: 26px; font-weight: 600; letter-spacing: -0.5px; color: var(--text); }
+    .stat-lbl { font-size: 12px; color: var(--text3); font-weight: 500; }
+
+    /* ── FEED / NEWS ── */
+    .page-inner { max-width: 900px; margin: 0 auto; padding: 40px 2rem; }
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .page-header h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.4px; }
+    .page-header p { font-size: 14px; color: var(--text3); margin-top: 4px; }
+
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .tag {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.12s;
+      background: var(--bg);
+    }
+    .tag:hover, .tag.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+    .news-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .news-card {
+      background: var(--bg);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      cursor: pointer;
+      transition: background 0.12s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .news-card:hover { background: var(--bg2); }
+    .news-card-cat {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .cat-release { color: var(--accent); }
+    .cat-update { color: var(--green); }
+    .cat-notice { color: var(--amber); }
+    .cat-incident { color: var(--red); }
+    .news-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 5px; color: var(--text); }
+    .news-card p { font-size: 13px; color: var(--text3); line-height: 1.5; }
+    .news-meta { font-size: 12px; color: var(--text3); white-space: nowrap; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 2px; }
+    .news-badge {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .badge-release { background: var(--accent-soft); color: var(--accent); }
+    .badge-update { background: var(--green-soft); color: var(--green); }
+    .badge-notice { background: var(--amber-soft); color: var(--amber); }
+    .badge-incident { background: var(--red-soft); color: var(--red); }
+
+    /* ── PUSH CODE / ADMIN ── */
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 620px) { .admin-grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .card-title svg { width: 16px; height: 16px; color: var(--text2); }
+
+    .code-area {
+      width: 100%;
+      background: #0f1117;
+      color: #c8d3f5;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      border: 1px solid #2a2d3e;
+      border-radius: 8px;
+      padding: 14px;
+      resize: vertical;
+      min-height: 140px;
+      outline: none;
+      line-height: 1.7;
+    }
+    .code-area:focus { border-color: var(--accent); }
+
+    label { font-size: 13px; color: var(--text2); font-weight: 500; display: block; margin-bottom: 6px; }
+    input[type="text"], input[type="email"], select, textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border 0.15s;
+      margin-bottom: 12px;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+    textarea { resize: vertical; min-height: 100px; }
+    select { appearance: none; cursor: pointer; }
+
+    .field { margin-bottom: 14px; }
+    .field label { margin-bottom: 6px; }
+    .field input, .field select, .field textarea { margin-bottom: 0; }
+
+    /* ── SUBMIT TOPICS ── */
+    .submit-tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .sub-tab {
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      color: var(--text3);
+      margin-bottom: -1px;
+      transition: all 0.12s;
+    }
+    .sub-tab:hover { color: var(--text2); }
+    .sub-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .submit-pane { display: none; }
+    .submit-pane.active { display: block; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .priority-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+    .priority-opt {
+      padding: 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.12s;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+    }
+    .priority-opt:hover { border-color: var(--border2); }
+    .priority-opt.selected-low { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+    .priority-opt.selected-med { border-color: var(--amber); background: var(--amber-soft); color: var(--amber); }
+    .priority-opt.selected-hi { border-color: var(--red); background: var(--red-soft); color: var(--red); }
+
+    /* ── SUCCESS TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      background: var(--text);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      z-index: 999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ── DEPLOY LOG ── */
+    .log-output {
+      background: #0f1117;
+      color: #7eca9c;
+      font-family: var(--mono);
+      font-size: 12px;
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 120px;
+      border: 1px solid #2a2d3e;
+      overflow-y: auto;
+      line-height: 1.8;
+    }
+    .log-line { display: block; }
+    .log-dim { color: #4b5060; }
+    .log-ok { color: #7eca9c; }
+    .log-info { color: #82aaff; }
+    .log-warn { color: #ffcb6b; }
+
+    /* ── SUBMISSIONS INBOX ── */
+    .inbox-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .inbox-item {
+      background: var(--bg);
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      transition: background 0.12s;
+    }
+    .inbox-item:hover { background: var(--bg2); }
+    .inbox-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue { background: var(--accent); }
+    .dot-green { background: var(--green); }
+    .dot-amber { background: var(--amber); }
+    .inbox-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+    .inbox-sub { font-size: 12px; color: var(--text3); }
+    .inbox-right { text-align: right; display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
+    .inbox-time { font-size: 11px; color: var(--text3); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text3);
+      flex-wrap: wrap;
+      gap: 12px;
+      max-width: 1100px;
+      margin: 60px auto 0;
+    }
+    footer a { color: var(--text3); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+    .footer-links { display: flex; gap: 20px; }
+
+    /* ── MONO CHIP ── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--mono);
+      font-size: 11px;
+      background: var(--bg3);
+      color: var(--text2);
+      padding: 2px 8px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── STATUS INDICATOR ── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-soft);
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 500;
+    }
+    .status-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .hero { padding: 48px 1rem 40px; }
+      .page-inner { padding: 28px 1rem; }
+      .stats-bar { padding: 0 1rem; }
+    }
+
+    .divider { height: 1px; background: var(--border); margin: 24px 0; }
+    .mt-12 { margin-top: 12px; }
+    .mt-20 { margin-top: 20px; }
+    .flex { display: flex; }
+    .gap-8 { gap: 8px; }
+    .flex-wrap { flex-wrap: wrap; }
+    .align-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .text-sm { font-size: 13px; }
+    .text-xs { font-size: 12px; }
+    .text-muted { color: var(--text3); }
+    .full-card { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="navigate('home')">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16"><path d="M3 3h4v4H3zM9 3h4v4H9zM3 9h4v4H3zM11 9v2h2v2h-2v-2H9v-2h2z"/></svg>
+    </div>
+    NexaPort
+  </a>
+  <div class="nav-links">
+    <a href="#" id="nav-home" class="active" onclick="navigate('home')">Home</a>
+    <a href="#" id="nav-news" onclick="navigate('news')">News</a>
+    <a href="#" id="nav-submit" onclick="navigate('submit')">Submit</a>
+    <a href="#" id="nav-admin" onclick="navigate('admin')">Admin</a>
+    <a href="#" id="nav-inbox" class="nav-cta" onclick="navigate('inbox')">Inbox</a>
+  </div>
+</nav>
+
+<!-- ── HOME SECTION ── -->
+<section id="sec-home" class="active">
+  <div class="hero">
+    <div class="hero-tag"><span></span>v2.4.1 · All systems operational</div>
+    <h1>Your company's<br><em>unified portal</em></h1>
+    <p>Push updates, publish news, collect ideas and bug reports — all in one place. Built for teams that move fast.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="navigate('news')">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M17 3H3a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V4a1 1 0 00-1-1zM5 7h10v2H5V7zm0 4h7v2H5v-2z"/></svg>
+        Read latest news
+      </button>
+      <button class="btn btn-ghost" onclick="navigate('submit')">Submit something</button>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-val" id="stat-posts">24</span>
+      <span class="stat-lbl">Published posts</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val" id="stat-subs">138</span>
+      <span class="stat-lbl">Submissions received</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val" id="stat-deploys">12</span>
+      <span class="stat-lbl">Deploys this month</span>
+    </div>
+  </div>
+
+  <div class="page-inner" style="padding-top: 0;">
+    <div class="page-header">
+      <div>
+        <h2>Recent activity</h2>
+        <p>Latest news, releases and notices</p>
+      </div>
+      <button class="btn btn-ghost text-sm" onclick="navigate('news')">See all →</button>
+    </div>
+    <div class="news-grid" id="home-feed"></div>
+  </div>
+</section>
+
+<!-- ── NEWS SECTION ── -->
+<section id="sec-news">
+  <div class="page-inner">
+    <div class="page-header">
+      <div>
+        <h2>News &amp; Updates</h2>
+        <p>Releases, notices, incidents and announcements</p>
+      </div>
+    </div>
+    <div class="tag-row">
+      <button class="tag active" onclick="filterNews(this,'all')">All</button>
+      <button class="tag" onclick="filterNews(this,'release')">Releases</button>
+      <button class="tag" onclick="filterNews(this,'update')">Updates</button>
+      <button class="tag" onclick="filterNews(this,'notice')">Notices</button>
+      <button class="tag" onclick="filterNews(this,'incident')">Incidents</button>
+    </div>
+    <div class="news-grid" id="news-feed"></div>
+  </div>
+</section>
+
+<!-- ── SUBMIT SECTION ── -->
+<section id="sec-submit">
+  <div class="page-inner">
+    <div class="page-header">
+      <div>
+        <h2>Submit</h2>
+        <p>Report bugs, propose ideas, or get in touch</p>
+      </div>
+    </div>
+    <div class="submit-tabs">
+      <button class="sub-tab active" onclick="switchTab(this,'tab-bug')">🐞 Bug report</button>
+      <button class="sub-tab" onclick="switchTab(this,'tab-idea')">💡 Project idea</button>
+      <button class="sub-tab" onclick="switchTab(this,'tab-contact')">✉️ Contact us</button>
+    </div>
+
+    <!-- Bug report -->
+    <div class="submit-pane active" id="tab-bug">
+      <div class="card">
+        <div class="field">
+          <label>Bug title</label>
+          <input type="text" placeholder="e.g. Login fails on mobile Safari" id="bug-title" />
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Affected area</label>
+            <select id="bug-area">
+              <option value="">Choose area…</option>
+              <option>Authentication</option>
+              <option>Dashboard</option>
+              <option>API</option>
+              <option>Billing</option>
+              <option>Notifications</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Browser / platform</label>
+            <input type="text" placeholder="e.g. Chrome 124, macOS" id="bug-platform" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Steps to reproduce</label>
+          <textarea id="bug-steps" placeholder="1. Go to…&#10;2. Click on…&#10;3. See error"></textarea>
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <div class="priority-row">
+            <div class="priority-opt" onclick="selectPriority(this,'low','selected-low')">🟢 Low</div>
+            <div class="priority-opt" onclick="selectPriority(this,'med','selected-med')">🟡 Medium</div>
+            <div class="priority-opt" onclick="selectPriority(this,'hi','selected-hi')">🔴 High</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Your email <span class="text-muted">(optional)</span></label>
+          <input type="email" placeholder="you@company.com" id="bug-email" />
+        </div>
+        <button class="btn btn-accent" onclick="submitForm('bug')">Submit bug report</button>
+      </div>
+    </div>
+
+    <!-- Project idea -->
+    <div class="submit-pane" id="tab-idea">
+      <div class="card">
+        <div class="field">
+          <label>Idea title</label>
+          <input type="text" placeholder="e.g. Dark mode for the dashboard" id="idea-title" />
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Category</label>
+            <select id="idea-cat">
+              <option value="">Choose…</option>
+              <option>New feature</option>
+              <option>Product improvement</option>
+              <option>Developer experience</option>
+              <option>Performance</option>
+              <option>Security</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Estimated impact</label>
+            <select id="idea-impact">
+              <option value="">Choose…</option>
+              <option>Small (nice to have)</option>
+              <option>Medium (notable improvement)</option>
+              <option>Large (major value)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Describe the idea</label>
+          <textarea id="idea-desc" placeholder="What should be built, why it matters, and how it might work…" style="min-height:130px;"></textarea>
+        </div>
+        <div class="field">
+          <label>Your name <span class="text-muted">(optional)</span></label>
+          <input type="text" placeholder="Your name or handle" id="idea-name" />
+        </div>
+        <button class="btn btn-accent" onclick="submitForm('idea')">Submit idea</button>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="submit-pane" id="tab-contact">
+      <div class="card">
+        <div class="form-row">
+          <div class="field">
+            <label>Your name</label>
+            <input type="text" placeholder="Full name" id="ct-name" />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" placeholder="you@example.com" id="ct-email" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Subject</label>
+          <select id="ct-subject">
+            <option value="">Choose a topic…</option>
+            <option>Partnership enquiry</option>
+            <option>Press & media</option>
+            <option>Enterprise sales</option>
+            <option>Data / privacy request</option>
+            <option>General question</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea id="ct-message" placeholder="Write your message here…" style="min-height:140px;"></textarea>
+        </div>
+        <button class="btn btn-accent" onclick="submitForm('contact')">Send message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ADMIN / PUSH CODE SECTION ── -->
+<section id="sec-admin">
+  <div class="page-inner">
+    <div class="page-header">
+      <div>
+        <h2>Admin panel</h2>
+        <p>Push code, publish news, manage the portal</p>
+      </div>
+      <span class="chip">
+        <svg viewBox="0 0 12 12" width="10" fill="currentColor"><circle cx="6" cy="6" r="3"/></svg>
+        main · HEAD
+      </span>
+    </div>
+
+    <div class="status-bar">
+      <span class="status-dot"></span>
+      All systems operational — last deploy 3 hours ago
+    </div>
+
+    <div class="admin-grid">
+
+      <!-- Publish news post -->
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h12v12H4z"/><path d="M7 8h6M7 11h4"/></svg>
+          Publish news post
+        </div>
+        <div class="field"><label>Headline</label><input type="text" id="pub-title" placeholder="What's the news?" /></div>
+        <div class="form-row">
+          <div class="field">
+            <label>Category</label>
+            <select id="pub-cat">
+              <option value="release">Release</option>
+              <option value="update">Update</option>
+              <option value="notice">Notice</option>
+              <option value="incident">Incident</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <input type="text" id="pub-date" placeholder="e.g. Today" />
+          </div>
+        </div>
+        <div class="field"><label>Body</label><textarea id="pub-body" placeholder="Write the full post content…"></textarea></div>
+        <button class="btn btn-primary" onclick="publishPost()" style="width:100%;justify-content:center;">Publish post</button>
+      </div>
+
+      <!-- Push code / deploy -->
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3v10M6 9l4-4 4 4"/><path d="M5 17h10"/></svg>
+          Push &amp; deploy
+        </div>
+        <div class="field"><label>Commit message</label><input type="text" id="commit-msg" placeholder="feat: describe your change" /></div>
+        <div class="field">
+          <label>Code snippet / diff</label>
+          <textarea class="code-area" id="code-input" placeholder="// Paste your code or diff here…&#10;// This simulates a push to the main branch"></textarea>
+        </div>
+        <button class="btn btn-primary mt-12" onclick="runDeploy()" style="width:100%;justify-content:center;">
+          <svg viewBox="0 0 16 16" width="15" fill="currentColor"><path d="M8 1l7 7-7 7V9H1V7h7V1z"/></svg>
+          Push &amp; deploy
+        </button>
+        <div class="divider"></div>
+        <div class="card-title" style="margin-bottom:8px;">Deploy log</div>
+        <div class="log-output" id="deploy-log">
+          <span class="log-dim"># Waiting for deploy…</span>
+        </div>
+      </div>
+
+      <!-- Submission overview (full width) -->
+      <div class="card full-card">
+        <div class="card-title" style="justify-content:space-between;">
+          <span style="display:flex;align-items:center;gap:8px;">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="16"><path d="M4 4h12v12H4z"/><path d="M8 8l4 4M12 8l-4 4"/></svg>
+            Recent submissions
+          </span>
+          <button class="btn btn-ghost text-xs" onclick="navigate('inbox')">View all →</button>
+        </div>
+        <div class="inbox-grid" id="admin-inbox"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── INBOX SECTION ── -->
+<section id="sec-inbox">
+  <div class="page-inner">
+    <div class="page-header">
+      <div>
+        <h2>Submissions inbox</h2>
+        <p>All incoming bug reports, ideas and messages</p>
+      </div>
+    </div>
+    <div class="tag-row">
+      <button class="tag active" onclick="filterInbox(this,'all')">All</button>
+      <button class="tag" onclick="filterInbox(this,'bug')">Bugs</button>
+      <button class="tag" onclick="filterInbox(this,'idea')">Ideas</button>
+      <button class="tag" onclick="filterInbox(this,'contact')">Messages</button>
+    </div>
+    <div class="inbox-grid" id="inbox-full"></div>
+  </div>
+</section>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<footer>
+  <span>© 2025 NexaPort Inc.</span>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Status</a>
+    <a href="https://github.com" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+<script>
+// ── DATA STORE ──
+const store = {
+  posts: [
+    { id:1, title:'v2.4.1 — Performance patches & bug fixes', body:'We\'ve shipped a round of performance improvements including faster API response times and a fix for the Safari authentication issue.', cat:'release', date:'Jun 9, 2025' },
+    { id:2, title:'Scheduled maintenance window — June 14', body:'We\'ll be performing routine infrastructure maintenance on June 14 from 02:00–04:00 UTC. The portal may be briefly unavailable.', cat:'notice', date:'Jun 7, 2025' },
+    { id:3, title:'Dashboard v2 is now live for all users', body:'The redesigned dashboard is now rolling out to all accounts. It\'s faster, cleaner and supports custom widgets.', cat:'update', date:'Jun 5, 2025' },
+    { id:4, title:'API outage — resolved', body:'We experienced a 12-minute API disruption on June 3 due to a routing issue. All services have been fully restored.', cat:'incident', date:'Jun 3, 2025' },
+  ],
+  submissions: [
+    { id:1, type:'bug', title:'File upload fails over 10 MB', sub:'Reported via web · High priority', time:'2h ago', dot:'dot-amber' },
+    { id:2, type:'idea', title:'Add CSV export to all data tables', sub:'Proposed by alex@company.com', time:'5h ago', dot:'dot-blue' },
+    { id:3, type:'contact', title:'Enterprise pricing enquiry', sub:'Jordan Mills — Enterprise sales', time:'Yesterday', dot:'dot-green' },
+    { id:4, type:'bug', title:'Dark mode flicker on page load', sub:'Reported via mobile · Low priority', time:'Yesterday', dot:'dot-amber' },
+    { id:5, type:'idea', title:'Slack integration for notifications', sub:'Proposed anonymously', time:'2 days ago', dot:'dot-blue' },
+  ],
+  nextId: 5,
+  nextSubId: 6,
+};
+
+let currentPriority = '';
+
+// ── NAVIGATION ──
+function navigate(page) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('sec-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+  renderAll(page);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  return false;
+}
+
+// ── RENDER NEWS CARDS ──
+function newsCardHTML(p) {
+  return `<div class="news-card" data-cat="${p.cat}">
+    <div>
+      <div class="news-card-cat cat-${p.cat}">${p.cat.toUpperCase()}</div>
+      <h3>${p.title}</h3>
+      <p>${p.body}</p>
+    </div>
+    <div class="news-meta">
+      <span class="news-badge badge-${p.cat}">${p.cat}</span>
+      <span>${p.date}</span>
+    </div>
+  </div>`;
+}
+
+function renderNews(targetId, limit) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const posts = limit ? store.posts.slice(0, limit) : store.posts;
+  el.innerHTML = posts.map(newsCardHTML).join('');
+}
+
+function filterNews(btn, cat) {
+  document.querySelectorAll('.tag-row .tag').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const feed = document.getElementById('news-feed');
+  const posts = cat === 'all' ? store.posts : store.posts.filter(p => p.cat === cat);
+  feed.innerHTML = posts.map(newsCardHTML).join('') || '<div class="news-card"><div><p class="text-muted">No posts in this category.</p></div></div>';
+}
+
+// ── RENDER INBOX ──
+function inboxItemHTML(s) {
+  const labels = { bug: 'Bug', idea: 'Idea', contact: 'Message' };
+  const badgeClass = { bug: 'badge-incident', idea: 'badge-release', contact: 'badge-update' };
+  return `<div class="inbox-item" data-type="${s.type}">
+    <span class="inbox-dot ${s.dot}"></span>
+    <div>
+      <div class="inbox-title">${s.title}</div>
+      <div class="inbox-sub">${s.sub}</div>
+    </div>
+    <div class="inbox-right">
+      <span class="news-badge ${badgeClass[s.type]}">${labels[s.type]}</span>
+      <span class="inbox-time">${s.time}</span>
+    </div>
+  </div>`;
+}
+
+function renderInbox(targetId, limit) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const subs = limit ? store.submissions.slice(0, limit) : store.submissions;
+  el.innerHTML = subs.map(inboxItemHTML).join('');
+}
+
+function filterInbox(btn, type) {
+  document.querySelectorAll('.tag-row .tag').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const feed = document.getElementById('inbox-full');
+  const subs = type === 'all' ? store.submissions : store.submissions.filter(s => s.type === type);
+  feed.innerHTML = subs.map(inboxItemHTML).join('') || '<div class="inbox-item"><span></span><div><div class="inbox-title text-muted">Nothing here yet.</div></div><div></div></div>';
+}
+
+function renderAll(page) {
+  if (page === 'home') {
+    renderNews('home-feed', 3);
+    document.getElementById('stat-posts').textContent = store.posts.length;
+    document.getElementById('stat-subs').textContent = 138 + store.submissions.length - 5;
+    document.getElementById('stat-deploys').textContent = 12;
+  }
+  if (page === 'news') renderNews('news-feed');
+  if (page === 'inbox') renderInbox('inbox-full');
+  if (page === 'admin') {
+    renderInbox('admin-inbox', 3);
+    document.getElementById('pub-date').value = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+}
+
+// ── TABS ──
+function switchTab(btn, paneId) {
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.submit-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(paneId).classList.add('active');
+}
+
+// ── PRIORITY ──
+function selectPriority(el, val, cls) {
+  document.querySelectorAll('.priority-opt').forEach(o => o.className = 'priority-opt');
+  el.classList.add(cls);
+  currentPriority = val;
+}
+
+// ── SUBMIT FORMS ──
+function submitForm(type) {
+  const typeLbl = { bug: 'Bug report', idea: 'Project idea', contact: 'Message' };
+  const dots = { bug: 'dot-amber', idea: 'dot-blue', contact: 'dot-green' };
+  let title = '';
+  let sub = '';
+
+  if (type === 'bug') {
+    title = document.getElementById('bug-title').value || 'Untitled bug';
+    const area = document.getElementById('bug-area').value || 'General';
+    const pri = currentPriority ? currentPriority.charAt(0).toUpperCase() + currentPriority.slice(1) : 'Medium';
+    sub = `${area} · ${pri} priority`;
+    document.getElementById('bug-title').value = '';
+    document.getElementById('bug-steps').value = '';
+    document.getElementById('bug-email').value = '';
+    document.getElementById('bug-area').value = '';
+    document.querySelectorAll('.priority-opt').forEach(o => o.className = 'priority-opt');
+    currentPriority = '';
+  } else if (type === 'idea') {
+    title = document.getElementById('idea-title').value || 'Untitled idea';
+    const name = document.getElementById('idea-name').value || 'Anonymous';
+    sub = `Proposed by ${name}`;
+    document.getElementById('idea-title').value = '';
+    document.getElementById('idea-desc').value = '';
+    document.getElementById('idea-name').value = '';
+    document.getElementById('idea-cat').value = '';
+    document.getElementById('idea-impact').value = '';
+  } else {
+    title = document.getElementById('ct-subject').value || 'General enquiry';
+    const name = document.getElementById('ct-name').value || 'Anonymous';
+    const subject = document.getElementById('ct-subject').value || 'General question';
+    sub = `${name} — ${subject}`;
+    document.getElementById('ct-name').value = '';
+    document.getElementById('ct-email').value = '';
+    document.getElementById('ct-message').value = '';
+    document.getElementById('ct-subject').value = '';
+  }
+
+  store.submissions.unshift({ id: store.nextSubId++, type, title, sub, time: 'Just now', dot: dots[type] });
+  showToast(`${typeLbl[type]} submitted!`);
+}
+
+// ── PUBLISH POST ──
+function publishPost() {
+  const title = document.getElementById('pub-title').value.trim();
+  if (!title) { showToast('Please add a headline.', true); return; }
+  const cat = document.getElementById('pub-cat').value;
+  const date = document.getElementById('pub-date').value || 'Today';
+  const body = document.getElementById('pub-body').value || 'No additional details.';
+  store.posts.unshift({ id: store.nextId++, title, cat, date, body });
+  document.getElementById('pub-title').value = '';
+  document.getElementById('pub-body').value = '';
+  showToast('Post published!');
+}
+
+// ── DEPLOY SIMULATION ──
+function runDeploy() {
+  const msg = document.getElementById('commit-msg').value || 'chore: update files';
+  const log = document.getElementById('deploy-log');
+  const ts = new Date().toLocaleTimeString();
+  const sha = Math.random().toString(36).substr(2, 7);
+  const lines = [
+    `<span class="log-dim">[${ts}] Initiating deploy…</span>`,
+    `<span class="log-info">→ Commit: ${sha} "${msg}"</span>`,
+    `<span class="log-dim">→ Running build…</span>`,
+    `<span class="log-ok">✓ Build passed (1.2s)</span>`,
+    `<span class="log-dim">→ Uploading to GitHub Pages…</span>`,
+    `<span class="log-ok">✓ Deploy complete</span>`,
+    `<span class="log-info">→ Live at: https://yourorg.github.io</span>`,
+    `<span class="log-ok">✓ Done in 3.8s</span>`,
+  ];
+  log.innerHTML = '';
+  let i = 0;
+  const deployTimer = setInterval(() => {
+    if (i < lines.length) {
+      log.innerHTML += `<span class="log-line">${lines[i]}</span>`;
+      log.scrollTop = log.scrollHeight;
+      i++;
+    } else {
+      clearInterval(deployTimer);
+      document.getElementById('stat-deploys') && (document.getElementById('stat-deploys').textContent = 13);
+      showToast('Deploy successful!');
+    }
+  }, 320);
+}
+
+// ── TOAST ──
+function showToast(msg, warn) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.style.background = warn ? 'var(--amber)' : 'var(--text)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── INIT ──
+renderAll('home');
+</script>
+
+</body>
+</html>
